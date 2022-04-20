@@ -1,0 +1,33 @@
+/*
+ * motor.c
+ *
+ *  Created on: Nov 3, 2020
+ *      Author: mrmah
+ */
+
+#include"motor.h"
+
+ISR(INT1_vect)
+{
+	TOGGLE_BIT(MOTOR_OUT_PORT,IN1);
+	TOGGLE_BIT(MOTOR_OUT_PORT,IN2);
+}
+
+void INT1_init(void)
+{
+	SET_BIT(SREG,7);
+	CLEAR_BIT(DDRD,PD3);
+	SET_BIT(MCUCR,ISC11);
+	SET_BIT(MCUCR,ISC10);
+	SET_BIT(GICR,INT1);
+}
+
+void MOTOR_init(void)
+{
+	SET_BIT(MOTOR_OUT_PORT_DIR,IN1);
+	SET_BIT(MOTOR_OUT_PORT_DIR,IN2);
+	SET_BIT(MOTOR_CONTROL_PORT_DIR,MOTOR_E);
+	CLEAR_BIT(MOTOR_OUT_PORT,IN2);
+	SET_BIT(MOTOR_OUT_PORT,IN1);
+}
+
